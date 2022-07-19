@@ -1,25 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.files.storage import FileSystemStorage
-from .models import Photo, Video, Animal, Experiment, VideoRecording, Result 
-from .forms import Test_Form
+from .models import Animal, Experiment, VideoRecording, Result 
 from pathlib import Path
 import os
-
-def new_entry(request):
-  if request.method == 'POST' and request.FILES['pictureInput']:
-    upload = request.FILES['pictureInput']
-    fss = FileSystemStorage()
-    file = fss.save(upload.name, upload)
-    file_url = fss.url(file)
-    video = Video()
-    video.f=file
-    video.save()
-    return render(request, 'myApp/page1.html', {'file_url': file_url})
-  return render(request, 'myApp/page1.html')
-    
-def show_list(request):
-  videos = Video.objects.all()
-  return render(request, 'myApp/page2.html', {'videos': videos})
 
 def experiments(request):
   experiments = Experiment.objects.all().order_by('-experiment_date')
