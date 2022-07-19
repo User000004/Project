@@ -2,12 +2,6 @@ from django.db import models
 from django.utils import timezone
 import pickle
 
-class Photo(models.Model):
-  image = models.ImageField(upload_to='')
-
-class Video(models.Model):
-  f = models.FileField(upload_to='')
-
 class Animal(models.Model):
   animal_id = models.AutoField(primary_key = True)
   animal_type = models.CharField(max_length=200)
