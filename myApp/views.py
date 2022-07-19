@@ -22,12 +22,6 @@ def show_list(request):
   return render(request, 'myApp/page2.html', {'videos': videos})
 
 def experiments(request):
-  animal1 = Animal()
-  animal1.animal_type = 'mouse'
-  animal1.save()
-  animal2 = Animal()
-  animal2.animal_type = 'rat'
-  animal2.save()
   experiments = Experiment.objects.all().order_by('-experiment_date')
   return render(request, 'myApp/experiments.html', {'experiments': experiments})
 
