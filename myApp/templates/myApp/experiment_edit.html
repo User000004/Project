@@ -1,0 +1,101 @@
+{% extends 'myApp/template.html' %}
+
+{% block content %}
+  <center>  
+    <h1 style="color: #000000">
+      {{ experiment.experiment_name }} (edit)
+    </h1>
+  </center>
+  <form id="form1" name="form1" method="post" enctype="multipart/form-data" style="margin-left: 80px; margin-right: 20px; margin-top: 40px"> {% csrf_token %}
+    <table width="100%">
+      <tr>
+        <td width="11%" valign="top">
+          <h style="font-size: 35px">Name:</h>
+        </td>
+        <td valign="center">
+          <input type="text" id="inputName" name="inputName" style="font-size: 35px; background: #eeeeee; " value="{{ experiment.experiment_name }}">
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Description:</h>
+        </td>
+        <td valign="center">
+          <textarea rows="5" id="inputDescription" name="inputDescription" style="width: 50%; height: 100px; valign: top; background: #eeeeee; resize: none;">{{ experiment.experiment_description }}</textarea>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Date:</h>
+        </td>
+        <td valign="center">
+          <input type="datetime-local" id="inputDate" name="inputDate" style="font-size: 20px; background: #eeeeee;" value="{{ experiment.getTime_rfc3339 }}" required>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Animals:</h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 30px;">
+            {% for animal in animals %}
+              {% if animal.animal_type == experiment.animal_id.animal_type %}
+                <input type="radio" id="inputType" name="inputType" value="{{ animal.animal_type }}" style="width:25px; height:25px; " required checked="checked"> {{ animal.animal_type }} &nbsp;&nbsp;
+              {% endif %}
+              {% if animal.animal_type != experiment.animal_id.animal_type %}
+                <input type="radio" id="inputType" name="inputType" value="{{ animal.animal_type }}" style="width:25px; height:25px; " required> {{ animal.animal_type }} &nbsp;&nbsp;
+              {% endif %}
+            {% endfor %}
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Time passed after irradiation, hour: </h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 30px;">
+            <input type="number" id="inputTimeAfterExperiment" name="inputTimeAfterExperiment" min="0" style="width: 200px" required value="{{ experiment.time_after_experiment }}">
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Amount of irradiated animals: </h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 30px;">
+            <input type="number" id="inputAmountofIrradiatedAnimals" name="inputAmountofIrradiatedAnimals" min="0" style="width: 200px" value="{{ experiment.count_irradiated_animals }}">
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Amount of unirradiated animals: </h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 30px;">
+            <input type="number" id="inputAmountofUnirradiatedAnimals" name="inputAmountofUnirradiatedAnimals" min="0" style="width: 200px" value="{{ experiment.count_unirradiated_animals }}">
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+    </table>
+    <center>
+      <input type="submit" value="Submit" style="width: 200px; font-size: 20px; background: #00ff00">
+    </center>
+  </form>
+{% endblock %}

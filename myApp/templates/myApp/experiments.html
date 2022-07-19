@@ -1,0 +1,16 @@
+{% extends 'myApp/template.html' %}
+
+{% block content %}
+  {% for i in experiments %}
+    <a href="{% url 'experiment_info' pk=i.pk %}">
+      <div style="margin-bottom: 70px; margin-left: 20px; color: #505050">
+        <h2>Name: {{ i.experiment_name }}</h2></br>
+        <h>Date: {{ i.experiment_date }}</h></br>
+        <h>Description: {{ i.experiment_description }}</h></br>
+        <h>Animal: {{ i.animals }}</h></br>
+        <h>Amount of irradiated animals: {{ i.count_irradiated_animals }}</h></br>
+        <h>Amount of unirradiated animals: {{ i.count_unirradiated_animals }}</h></br>
+      </div>
+    </a>
+  {% endfor %}
+{% endblock %}

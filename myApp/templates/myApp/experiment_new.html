@@ -1,0 +1,103 @@
+{% extends 'myApp/template.html' %}
+
+{% block content %}
+  <form id="form1" name="form1" method="post" enctype="multipart/form-data" style="margin-left: 80px; margin-right: 20px;"> {% csrf_token %}
+    <table width="100%">
+      <tr>
+        <td width="11%" valign="top">
+          <h style="font-size: 35px">Name:</h>
+        </td>
+        <td valign="center">
+          <input type="text" id="inputName" name="inputName" style="font-size: 35px; background: #eeeeee; ">
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Description:</h>
+        </td>
+        <td valign="center">
+          <textarea rows="5" id="inputDescription" name="inputDescription" style="width: 50%; height: 100px; valign: top; background: #eeeeee; resize: none;"></textarea>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Date:</h>
+        </td>
+        <td valign="center">
+          <input type="datetime-local" id="inputDate" name="inputDate" style="font-size: 20px; background: #eeeeee; " required>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Animals:</h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 30px;">
+            {% for animal in animals %}
+              <input type="radio" id="inputType" name="inputType" value="{{ animal.animal_type }}" style="width:25px; height:25px; " required> {{ animal.animal_type }} &nbsp;&nbsp;
+            {% endfor %}
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Time passed after irradiation, hour: </h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 30px;">
+            <input type="number" id="inputTimeAfterExperiment" name="inputTimeAfterExperiment" min="0" style="width: 200px" required>
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Amount of irradiated animals: </h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 30px;">
+            <input type="number" id="inputAmountofIrradiatedAnimals" name="inputAmountofIrradiatedAnimals" min="0" style="width: 200px" required>
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Amount of unirradiated animals: </h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 30px;">
+            <input type="number" id="inputAmountofUnirradiatedAnimals" name="inputAmountofUnirradiatedAnimals" min="0" style="width: 200px" required>
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr>
+        <td valign="top">
+          <h style="font-size: 18px">Video-files: </h>
+        </td>
+        <td valign="center">
+          <p style="font-size: 20px;">
+            <input type="file" id="inputFiles" name="inputFiles" accept="video/mp4, video/avi" multiple>
+          </p>
+        </td>
+      </tr>
+      <tr height="20px">
+      </tr>
+    </table>
+    <center>
+      <input type="submit" value="Submit" style="width: 200px; font-size: 20px; background: #00ff00">
+    </center>
+  </form>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'myApp/template.html' %}
+
+{% block content %}
+  <div style="margin-right: 20px; margin-left: 40px; ">
+    <center>
+      <h1>
+        {{ video.video_name }}
+      </h1>
+    </center>
+    <table style = "width: 100%; ">
+      <tr>
+        <td style="text-align: center; width: 50%">
+          <h1 style="color: #000000">
+            Video info:
+          </h1>
+        </td>
+        <td style = "text-align: center">
+          <h1 style="color: #000000">
+            Results:
+          </h1>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">
+          <h>
+            Video name: {{ video.video_name }} </br></br>
+            Description: {{ video.video_description }} </br></br>
+            Type:  {{ video.get_irradiated }} </br></br>
+          </h>
+          <table>
+            <tr>
+              <center>
+                <video width="80%" controls="controls" alt="Not loaded" style="margin-bottom: 40px;"src="{{ video.video_url }}">
+              </center>
+            </tr>
+            <tr>
+              <center>
+                <a href="{% url 'video_edit' pk=experiment.pk pk2=video.pk %}">
+                  <button style="width: 250px; height: 60px; background: #ff9910; color: #000000; font-size: 150%; ">
+                    Edit video info
+                  </button>
+                </a></br></br>
+                <a href="">
+                  <button style="width: 250px; height: 60px; background: #ff9910; color: #000000; font-size: 150%; ">
+                    Analyze
+                  </button>
+                </a>
+              </center>
+            </tr>
+          </table>
+        </td>
+        <td valign="top">
+          
+        </td>
+      </tr>
+    </table>
+  </div>
+{% endblock %}

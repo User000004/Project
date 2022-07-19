@@ -1,0 +1,54 @@
+{% extends 'myApp/template.html' %}
+
+{% block content %}
+  <div style="margin-right: 20px; margin-left: 40px; ">
+    <table style = "width: 100%; ">
+      <tr>
+        <td style="text-align: center; width: 50%">
+          <h1 style="color: #000000">
+            Experiment info:
+          </h1>
+        </td>
+        <td style = "text-align: center">
+          <h1 style="color: #000000">
+            Related videos:
+          </h1>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">
+          <h2>
+            Experiment name: {{ experiment.experiment_name }} </br></br>
+            Experiment date: {{ experiment.experiment_date }} </br></br>
+            Description: {{ experiment.experiment_description }} </br></br>
+            Type of animals in the experiment:  {{ experiment.animals }} </br></br>
+            Time passed after the experiment: {{ experiment.time_after_experiment }} hour(s) </br></br>
+            Number of irradiated animals: {{ experiment.count_irradiated_animals }} </br></br>
+            Number of unirradiated animals: {{ experiment.count_unirradiated_animals }} </br></br>
+          </h2>
+          <a href="{% url 'experiment_edit' pk=experiment.experiment_id %}">
+            <button style="width: 250px; height: 60px; background: #ff9910; color: #000000; font-size: 150%; ">
+              Edit experiment info
+            </button>
+          </a>
+        </td>
+        <td valign="top">
+          {% for i in videos %}
+            <a href="{% url 'video_info' pk=experiment.pk pk2=i.pk %}">
+              <div style="margin-bottom: 70px; margin-left: 20px; color: #505050">
+                <h2>Name: {{ i.video_name }}</h2>
+                <h>Description: {{ i.video_description }}</h></br></br>
+                <video width="200px" controls="controls" alt="Not loaded" src="{{ i.video_url }}">
+              </div>
+            </a>
+          {% endfor %}
+          <a href="{% url 'video_new' pk=experiment.experiment_id %}">
+            <button style="width: 250px; height: 60px; background: #ff9910; color: #000000; font-size: 150%; margin-bottom: 40px;">
+              Add new video file to the experiment
+            </button>
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>
+{% endblock %}
