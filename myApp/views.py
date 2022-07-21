@@ -33,20 +33,7 @@ def experiment_new(request):
     experiment.save()
     files = request.FILES.getlist('inputFiles')
     for i in files:
-      fss = FileSystemStorage('media/'+experiment.experiment_path)
-      file = fss.save(i.name, i)
-      file_url = fss.url(file)
-      video = VideoRecording()
-      video.video_name = experiment.experiment_name+'.Video_'
-      video.experiment_id = experiment
-      video.video_url = file_url
-      video.save()
-      video.video_name = experiment.experiment_name+'.Video_'+str(video.video_id)
-      video.save()
-      result = Result()
-      result.video_id = video
-      result.result_path = experiment.experiment_path+'Result_to_video_'+str(video.video_id)
-      result.save()
+      video_add(experiment.experiment_id, i, '', '')
     experiments = Experiment.objects.all().order_by('-experiment_date')
     return render(request, 'myApp/experiments.html', {'experiments': experiments})
   animals = Animal.objects.all()
@@ -54,30 +41,8 @@ def experiment_new(request):
 
 def video_new(request, pk):
   if request.method == 'POST':
-    videos = VideoRecording.objects.filter(experiment_id=pk)
-    upload = request.FILES['inputFile']
+    video_add(pk, request.FILES['inputFile'], request.POST.get('inputName'), request.POST.get('inputDescription'), request.POST.get('inputType'))
     experiment = get_object_or_404(Experiment, experiment_id=pk)
-    fss = FileSystemStorage('media/'+experiment.experiment_path)
-    file = fss.save(upload.name, upload)
-    file_url = fss.url(file)
-    video = VideoRecording()
-    video.video_name = request.POST.get('inputName')
-    video.experiment_id = experiment
-    if request.POST.get('inputDescription') != '':
-      video.video_description = request.POST.get('inputDescription')
-    video.video_url = file_url
-    if request.POST.get('inputType') == 'irradiated':
-      video.animal_irradiated = True
-    else:
-      video.animal_irradiated = False
-    video.save()
-    if video.video_name == '':
-      video.video_name = experiment.experiment_name+'.Video_'+str(video.video_id)
-    video.save()
-    result = Result()
-    result.video_id = video
-    result.result_path = experiment.experiment_path+'Result_to_video_'+str(video.video_id)
-    result.save()
     videos = VideoRecording.objects.filter(experiment_id=pk)
     return render(request, 'myApp/experiment_info.html', {'videos': videos, 'experiment': experiment})
   experiment = get_object_or_404(Experiment, experiment_id=pk)
@@ -139,6 +104,31 @@ def video_edit(request, pk, pk2):
     
   video = get_object_or_404(VideoRecording, video_id=pk2)
   return render(request, 'myApp/video_edit.html', {'video': video})
+
+def video_add(exp_id, video_file, video_name='', video_description='no description', irradiated='none'):
+  experiment=get_object_or_404(Experiment, experiment_id=exp_id)
+  fss = FileSystemStorage()
+  file = fss.save(f'{experiment.experiment_path}/{video_file.name}', video_file)
+  file_url = fss.url(file)
+  video = VideoRecording()
+  video.video_name = video_name
+  video.experiment_id = experiment
+  video.video_description = video_description
+  video.video_url = file_url
+  if irradiated == 'irradiated':
+    video.animal_irradiated = True
+  elif irradiated == 'unirradiated':
+    video.animal_irradiated = False
+  video.save()
+  if video.video_name == '':
+    video.video_name = experiment.experiment_name+'.Video_'+str(video.video_id)
+  if video.video_description == '':
+    video.video_description == 'no description'
+  video.save()
+  result = Result()
+  result.video_id = video
+  result.result_path = experiment.experiment_path+'Result_to_video_'+str(video.video_id)
+  result.save()
 
 """
   videos = VideoRecording.objects.filter(experiment_id=pk)
